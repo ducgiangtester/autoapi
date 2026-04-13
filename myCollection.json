@@ -1,0 +1,1018 @@
+{
+  "info": {
+    "_postman_id": "1695235a-da37-455c-bdb4-b988805c45e7",
+    "name": "thuc hanh api auto",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "7178995",
+    "_collection_link": "https://go.postman.co/collection/7178995-1695235a-da37-455c-bdb4-b988805c45e7?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "user management final official",
+      "item": [
+        {
+          "name": "create user",
+          "item": [
+            {
+              "name": "create user (positive)",
+              "item": [
+                {
+                  "name": "create user successfully",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "// khai báo giá trị ngẫu nhiên cho name và email\r",
+                          "let rdUserName = pm.variables.replaceIn(\"{{$randomFullName}}\")\r",
+                          "let rdUserEmail = pm.variables.replaceIn(\"{{$randomEmail}}\")\r",
+                          "// Chuyển biến gender và status từ chuỗi sang đối tượng json\r",
+                          "let arrGender  = JSON.parse(pm.environment.get(\"userGender\"))\r",
+                          "let arrStatus = JSON.parse(pm.environment.get(\"userStatus\"))\r",
+                          "// khai báo giá trị ngẫu nhiên cho giới tính và status\r",
+                          "let rdUserGender = _.sample(arrGender)\r",
+                          "let rdUserStatus = _.sample(arrStatus)\r",
+                          "// tạo biến môi trường\r",
+                          "pm.environment.set(\"rdUserName\",rdUserName)\r",
+                          "pm.environment.set(\"rdUserEmail\",rdUserEmail)\r",
+                          "pm.environment.set(\"rdUserGender\",rdUserGender)\r",
+                          "pm.environment.set(\"rdUserStatus\",rdUserStatus)\r",
+                          "\r",
+                          "\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "let jsData = pm.response.json()\r",
+                          "// Cách 1\r",
+                          "// pm.test(\"Verify name\",()=>{\r",
+                          "// pm.expect(jsData.name).to.eql(pm.environment.get(\"rdUserName\"))\r",
+                          "// })\r",
+                          "// pm.test(\"Verify email\",()=>{\r",
+                          "// pm.expect(jsData.name).to.eql(pm.environment.get(\"rdUserName\"))\r",
+                          "// })\r",
+                          "// pm.test(\"Verify gender\",()=>{\r",
+                          "// pm.expect(jsData.name).to.eql(pm.environment.get(\"rdUserName\"))\r",
+                          "// })\r",
+                          "// pm.test(\"Verify status\",()=>{\r",
+                          "// pm.expect(jsData.name).to.eql(pm.environment.get(\"rdUserName\"))\r",
+                          "// })\r",
+                          "\r",
+                          "\r",
+                          "\r",
+                          "// Cách 2\r",
+                          "let actualArrData = [\"name\",\"email\", \"gender\",\"status\"]\r",
+                          "actualArrData.forEach((field)=>{\r",
+                          "    pm.test(`Verify ${field}`,()=>{\r",
+                          "    const expectedData = \"rdUser\"+field.charAt(0).toUpperCase()+field.slice(1)\r",
+                          "    console.log(jsData[field])\r",
+                          "    console.log(pm.environment.get(expectedData))\r",
+                          "\r",
+                          "    pm.expect(jsData[field]).to.eql(pm.environment.get(expectedData))\r",
+                          "    })\r",
+                          "})\r",
+                          "\r",
+                          "\r",
+                          "\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer b99c4db5ceb1f0c7382c003ea65ec17ddef97cde479bef2832ab3b79c39e01eb"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n\t\"name\": \"{{rdUserName}}\",\r\n\t\"gender\": \"{{rdUserGender}}\",\r\n\t\"email\": \"{{rdUserEmail}}\",\r\n\t\"status\": \"{{rdUserStatus}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "https://gorest.co.in/public/v2/users",
+                      "protocol": "https",
+                      "host": [
+                        "gorest",
+                        "co",
+                        "in"
+                      ],
+                      "path": [
+                        "public",
+                        "v2",
+                        "users"
+                      ]
+                    },
+                    "description": "Generated from cURL: curl --location 'https://gorest.co.in/public/v2/users' \\\r\n--header 'Accept: application/json' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'Authorization: Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901' \\\r\n--data-raw '{\r\n\t\"name\": \"Tenali Ramakrishna\",\r\n\t\"gender\": \"male\",\r\n\t\"email\": \"tendali.ramakrhjhjishna@15ce.com\",\r\n\t\"status\": \"active\"\r\n}'\r\n"
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "create user (negative)",
+              "item": [
+                {
+                  "name": "create user with existed email",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "\r",
+                          "\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "let jsData = pm.response.json()\r",
+                          "pm.test(\"Verify msg khi tạo trùng email\",()=>{\r",
+                          "pm.expect(pm.response.code).to.eql(422)\r",
+                          "const acutalMsgEmail = jsData.find(item => item.field === \"email\").message\r",
+                          "pm.expect(acutalMsgEmail).to.eql(\"has already been taken\")\r",
+                          "})\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer b99c4db5ceb1f0c7382c003ea65ec17ddef97cde479bef2832ab3b79c39e01eb"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n\t\"name\": \"{{rdUserName}}\",\r\n\t\"gender\": \"{{rdUserGender}}\",\r\n\t\"email\": \"{{rdUserEmail}}\",\r\n\t\"status\": \"{{rdUserStatus}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "https://gorest.co.in/public/v2/users",
+                      "protocol": "https",
+                      "host": [
+                        "gorest",
+                        "co",
+                        "in"
+                      ],
+                      "path": [
+                        "public",
+                        "v2",
+                        "users"
+                      ]
+                    },
+                    "description": "Generated from cURL: curl --location 'https://gorest.co.in/public/v2/users' \\\r\n--header 'Accept: application/json' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'Authorization: Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901' \\\r\n--data-raw '{\r\n\t\"name\": \"Tenali Ramakrishna\",\r\n\t\"gender\": \"male\",\r\n\t\"email\": \"tendali.ramakrhjhjishna@15ce.com\",\r\n\t\"status\": \"active\"\r\n}'\r\n"
+                  },
+                  "response": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update an user",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"name\": \"fsdfds\",\r\n\t\"gender\": \"male\",\r\n\t\"email\": \"sfsf@sfsd.vn\",\r\n\t\"status\": \"active\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users/8417959",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users",
+                "8417959"
+              ]
+            },
+            "description": "Generated from cURL: curl --location --request PATCH 'https://gorest.co.in/public/v2/users/8417959' \\\r\n--header 'Accept: application/json' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'Authorization: Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901' \\\r\n--data-raw '{\r\n\t\"name\": \"fsdfds\",\r\n\t\"gender\": \"male\",\r\n\t\"email\": \"sfsf@sfsd.vn\",\r\n\t\"status\": \"active\"}'\r\n"
+          },
+          "response": []
+        },
+        {
+          "name": "view an user",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901"
+              }
+            ],
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users/8417959",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users",
+                "8417959"
+              ]
+            },
+            "description": "Generated from cURL: curl --location 'https://gorest.co.in/public/v2/users/8417959' \\\r\n--header 'Accept: application/json' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'Authorization: Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901' \\\r\n--data ''\r\n"
+          },
+          "response": []
+        },
+        {
+          "name": "delete an user",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901"
+              }
+            ],
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users/8417959",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users",
+                "8417959"
+              ]
+            },
+            "description": "Generated from cURL: curl --location --request DELETE 'https://gorest.co.in/public/v2/users/8417959' \\\r\n--header 'Accept: application/json' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'Authorization: Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901'\r\n"
+          },
+          "response": []
+        },
+        {
+          "name": "search users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901"
+              }
+            ],
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users/?id=8417047&name=Balachandra%20Varma&email=varma_balachandra%40gleason.example&gender=female&status=inactive",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "8417047"
+                },
+                {
+                  "key": "name",
+                  "value": "Balachandra%20Varma"
+                },
+                {
+                  "key": "email",
+                  "value": "varma_balachandra%40gleason.example"
+                },
+                {
+                  "key": "gender",
+                  "value": "female"
+                },
+                {
+                  "key": "status",
+                  "value": "inactive"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --location 'https://gorest.co.in/public/v2/users/?id=8417047&name=Balachandra%20Varma&email=varma_balachandra%40gleason.example&gender=female&status=inactive' \\\r\n--header 'Accept: application/json' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'Authorization: Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901'\r\n"
+          },
+          "response": []
+        }
+      ],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              "const userManagementUtils = `({\r",
+              "    createUser: function (name, email, gender, status) {\r",
+              "        const createUserRequest = {\r",
+              "            url: pm.environment.get('baseUrl') + '/public/v2/users',\r",
+              "            method: 'POST',\r",
+              "            header: {\r",
+              "                'Content-Type': 'application/json',\r",
+              "                // Chỉ cần khai báo Content-Type 1 lần\r",
+              "                'Authorization': 'Bearer b99c4db5ceb1f0c7382c003ea65ec17ddef97cde479bef2832ab3b79c39e01eb'\r",
+              "            },\r",
+              "            body: {\r",
+              "                mode: 'raw',\r",
+              "                raw: JSON.stringify({\r",
+              "                    name: name,\r",
+              "                    gender: gender,\r",
+              "                    email: email,\r",
+              "                    status: status\r",
+              "                })\r",
+              "            }\r",
+              "        };\r",
+              "\r",
+              "        pm.sendRequest(createUserRequest, function (err, res) {\r",
+              "            if (err) {\r",
+              "                console.error('Create user failed:', err);\r",
+              "            } else {\r",
+              "                const responseData = res.json();\r",
+              "                console.log('User created successfully:', responseData.name);\r",
+              "                // Bạn có thể lưu ID vào environment để dùng cho các request sau\r",
+              "                pm.environment.set(\"current_user_id\", responseData.id);\r",
+              "            }\r",
+              "        });\r",
+              "    }\r",
+              "})`;\r",
+              "pm.globals.set(\"userManagementUtils\", userManagementUtils);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "user management practice",
+      "item": [
+        {
+          "name": "create user successfully",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "//B1 : có data từ request truyền vào => data ngẫu nhiên\r",
+                  "let rdUserName = pm.variables.replaceIn(\"{{$randomFullName}}\") // => trả ra 1 name ngẫu nhiên và gán vào rdUserName => \"Giang\"\r",
+                  "pm.environment.set(\"rdUserName\",rdUserName)  // => biến MT có giá trị Giang\r",
+                  "let rdUserEmail = pm.variables.replaceIn(\"{{$randomEmail}}\") // => trả ra 1 name ngẫu nhiên và gán vào rdUserName => \"Giang\"\r",
+                  "pm.environment.set(\"rdUserEmail\",rdUserEmail)  // => biến MT có giá trị Giang\r",
+                  "\r",
+                  "let rdUserGender = _.sample(JSON.parse(pm.environment.get(\"userGender\"))) //\r",
+                  "\r",
+                  "pm.environment.set(\"rdUserGender\",rdUserGender)\r",
+                  "let rdUserStatus = _.sample(JSON.parse(pm.environment.get(\"userStatus\"))) //\r",
+                  "\r",
+                  "pm.environment.set(\"rdUserStatus\",rdUserStatus)"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let jsData = pm.response.json()\r",
+                  "// let actualUserName = jsData.name // trả ra name trong response\r",
+                  "// let actualUserEmail = jsData.email // trả ra email trong response\r",
+                  "// let actualUserGender = jsData.gender // trả ra gender trong response\r",
+                  "// let actualUserStatus = jsData.status // trả ra stt trong response\r",
+                  "\r",
+                  "// pm.test(\"Verify user name\", ()=>{\r",
+                  "//     pm.expect(actualUserName).to.eql(pm.environment.get(\"rdUserName\"))\r",
+                  "// } )\r",
+                  "// pm.test(\"Verify user email\", ()=>{\r",
+                  "//     pm.expect(actualUserEmail).to.eql(pm.environment.get(\"rdUserEmail\"))\r",
+                  "// } )\r",
+                  "// pm.test(\"Verify user gender\", ()=>{\r",
+                  "//     pm.expect(actualUserGender).to.eql(pm.environment.get(\"rdUserGender\"))\r",
+                  "// } )\r",
+                  "// pm.test(\"Verify user stt\", ()=>{\r",
+                  "//     pm.expect(actualUserStatus).to.eql(pm.environment.get(\"rdUserStatus\"))\r",
+                  "// } )\r",
+                  "\r",
+                  "pm.test(\"Verify ID not nutt\", ()=>{\r",
+                  "    pm.expect(jsData.id).to.be.empty\r",
+                  "})\r",
+                  "let arr = [\"name\",\"email\",\"gender\",\"status\"]\r",
+                  "\r",
+                  "arr.forEach((field) => {\r",
+                  "    let enVar = \"rdUser\"+ field.charAt(0).toUpperCase()+field.slice(1) // => rdUserName, rdUserEmail\r",
+                  "    let expectedData = pm.environment.get(enVar)\r",
+                  "    let actualData = jsData.field\r",
+                  "    pm.test(`Verify ${field}`), ()=> {\r",
+                  "        pm.expect(expectedData).to.eql(actualData)\r",
+                  "    }\r",
+                  "})\r",
+                  "\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer b99c4db5ceb1f0c7382c003ea65ec17ddef97cde479bef2832ab3b79c39e01eb"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"{{rdUserName}}\",\r\n    \"gender\": \"{{rdUserGender}}\",\r\n    \"email\": \"{{rdUserEmail}}\",\r\n    \"status\": \"{{rdUserStatus}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users"
+              ]
+            },
+            "description": "Generated from cURL: curl --location 'https://gorest.co.in/public/v2/users' \\\r\n--header 'Accept: application/json' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'Authorization: Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901' \\\r\n--data-raw '{\r\n\t\"name\": \"Tenali Ramakrishna\",\r\n\t\"gender\": \"male\",\r\n\t\"email\": \"tendali.ramakrhjhjishna@15ce.com\",\r\n\t\"status\": \"active\"\r\n}'\r\n"
+          },
+          "response": []
+        },
+        {
+          "name": "create user with existed email",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let jsData = pm.response.json()\r",
+                  "pm.test(\"Verify msg email has been taken\", ()=>{\r",
+                  "    let actualMsg = jsData.find((item) => item.field === \"email\").message\r",
+                  "    pm.expect(actualMsg).to.eql(\"has already been taken\")\r",
+                  "})\r",
+                  "\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer b99c4db5ceb1f0c7382c003ea65ec17ddef97cde479bef2832ab3b79c39e01eb"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"{{rdUserName}}\",\r\n    \"gender\": \"{{rdUserGender}}\",\r\n    \"email\": \"{{rdUserEmail}}\",\r\n    \"status\": \"{{rdUserStatus}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users"
+              ]
+            },
+            "description": "Generated from cURL: curl --location 'https://gorest.co.in/public/v2/users' \\\r\n--header 'Accept: application/json' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'Authorization: Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901' \\\r\n--data-raw '{\r\n\t\"name\": \"Tenali Ramakrishna\",\r\n\t\"gender\": \"male\",\r\n\t\"email\": \"tendali.ramakrhjhjishna@15ce.com\",\r\n\t\"status\": \"active\"\r\n}'\r\n"
+          },
+          "response": []
+        },
+        {
+          "name": "update an user",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "let utilsUsersFc = eval(pm.globals.get(\"utilsUsers\"))\r",
+                  "let utilsRdDTFc = eval(pm.globals.get(\"utilsRdDT\"))\r",
+                  "\r",
+                  "utilsUsersFc.creUser(utilsRdDTFc.rdDtCreateUser().name,utilsRdDTFc.rdDtCreateUser().gender\r",
+                  ",utilsRdDTFc.rdDtCreateUser().email,utilsRdDTFc.rdDtCreateUser().status)\r",
+                  "// B1: Viết script auto theo testcase : tạo user, update user, view user\r",
+                  "// B2: Viết các hàm sendrequest cho api update user"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"name\": \"fsdfds\",\r\n\t\"gender\": \"male\",\r\n\t\"email\": \"sfsf@sfsd.vn\",\r\n\t\"status\": \"active\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users/8417959",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users",
+                "8417959"
+              ]
+            },
+            "description": "Generated from cURL: curl --location --request PATCH 'https://gorest.co.in/public/v2/users/8417959' \\\r\n--header 'Accept: application/json' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'Authorization: Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901' \\\r\n--data-raw '{\r\n\t\"name\": \"fsdfds\",\r\n\t\"gender\": \"male\",\r\n\t\"email\": \"sfsf@sfsd.vn\",\r\n\t\"status\": \"active\"}'\r\n"
+          },
+          "response": []
+        },
+        {
+          "name": "view an user",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901"
+              }
+            ],
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users/8417959",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users",
+                "8417959"
+              ]
+            },
+            "description": "Generated from cURL: curl --location 'https://gorest.co.in/public/v2/users/8417959' \\\r\n--header 'Accept: application/json' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'Authorization: Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901' \\\r\n--data ''\r\n"
+          },
+          "response": []
+        },
+        {
+          "name": "delete an user",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901"
+              }
+            ],
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users/8417959",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users",
+                "8417959"
+              ]
+            },
+            "description": "Generated from cURL: curl --location --request DELETE 'https://gorest.co.in/public/v2/users/8417959' \\\r\n--header 'Accept: application/json' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'Authorization: Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901'\r\n"
+          },
+          "response": []
+        },
+        {
+          "name": "search users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901"
+              }
+            ],
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users/?id=8417047&name=Balachandra%20Varma&email=varma_balachandra%40gleason.example&gender=female&status=inactive",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "8417047"
+                },
+                {
+                  "key": "name",
+                  "value": "Balachandra%20Varma"
+                },
+                {
+                  "key": "email",
+                  "value": "varma_balachandra%40gleason.example"
+                },
+                {
+                  "key": "gender",
+                  "value": "female"
+                },
+                {
+                  "key": "status",
+                  "value": "inactive"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --location 'https://gorest.co.in/public/v2/users/?id=8417047&name=Balachandra%20Varma&email=varma_balachandra%40gleason.example&gender=female&status=inactive' \\\r\n--header 'Accept: application/json' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'Authorization: Bearer eb86e804b1236fd230d55f9aef58a5e505c551888b41fe2d77bbc2f22e04e901'\r\n"
+          },
+          "response": []
+        }
+      ],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              "\r",
+              "const utilsRdDT = `({\r",
+              "    rdDtCreateUser: function(){\r",
+              "    let rdUserName = pm.variables.replaceIn(\"{{$randomFullName}}\")\r",
+              "    let rdUserEmail = pm.variables.replaceIn(\"{{$randomEmail}}\")\r",
+              "    let arrGender = JSON.parse(pm.environment.get(\"userGender\"))\r",
+              "    let arrStatus = JSON.parse(pm.environment.get(\"userStatus\"))\r",
+              "// khai báo giá trị ngẫu nhiên cho giới tính và status\r",
+              "    let rdUserGender = _.sample(arrGender)\r",
+              "    let rdUserStatus = _.sample(arrStatus)\r",
+              "\r",
+              "    return {\r",
+              "        name:rdUserName,\r",
+              "        email:rdUserEmail,\r",
+              "        gender:rdUserGender,\r",
+              "        status:rdUserStatus\r",
+              "    }\r",
+              "    }\r",
+              "})`\r",
+              "\r",
+              "pm.globals.set(\"utilsRdDT\", utilsRdDT.toString())\r",
+              "\r",
+              "const utilsUsers = `({\r",
+              "    creUser: function (name, gender, email, status) {\r",
+              "        const rqCreUser = {\r",
+              "            url: pm.environment.get(\"baseUrl\") + \"/public/v2/users\",\r",
+              "            method: \"POST\",\r",
+              "            header: {\r",
+              "                \"Accept\": \"application/json\",\r",
+              "                \"Content-Type\": \"application/json\",\r",
+              "                \"Authorization\": \"Bearer b99c4db5ceb1f0c7382c003ea65ec17ddef97cde479bef2832ab3b79c39e01eb\"\r",
+              "            },\r",
+              "            body: {\r",
+              "                mode: 'raw',\r",
+              "                raw: JSON.stringify({\r",
+              "                    name: name,\r",
+              "                    gender: gender,\r",
+              "                    email: email,\r",
+              "                    status: status\r",
+              "                })\r",
+              "            }\r",
+              "\r",
+              "        }\r",
+              "        pm.sendRequest(rqCreUser, (err, res) => {\r",
+              "            pm.test(\"STT is 200\", () => {\r",
+              "                pm.expect(res.code).to.eql(201);\r",
+              "                console.log(res.id)\r",
+              "            })\r",
+              "        })\r",
+              "\r",
+              "    }\r",
+              "})`\r",
+              "\r",
+              "pm.globals.set(\"utilsUsers\", utilsUsers.toString())\r",
+              "\r",
+              "// // // const utilUser = ({\r",
+              "\r",
+              "// //* api tạo user//\r",
+              "// ...\r",
+              " // const creUserRequest = { // thông tin request  }\r",
+              "// pm.sendRequest(creUserRequest, (err, res)=>{\r",
+              " // đoạn code xử lý response của API})\r",
+              "\r",
+              "\r",
+              "\r",
+              "// //* api delete user//\r",
+              "\r",
+              "\r",
+              "// //*///\r",
+              "\r",
+              "\r",
+              "// // })\r",
+              "\r",
+              "\r",
+              "\r",
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              "let utilsRdDTFc = eval(pm.globals.get(\"utilsRdDT\"))\r",
+              "\r",
+              "console.log(utilsRdDTFc.rdDtCreateUser().name)"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "New Request",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "const randomData = `({\r",
+          "rdUserRequest : function(){\r",
+          "let rdUserName = pm.variables.replaceIn(\"{{$randomFullName}}\")\r",
+          "let rdUserEmail = pm.variables.replaceIn(\"{{$randomEmail}}\")\r",
+          "let arrGender  = JSON.parse(pm.environment.get(\"userGender\"))\r",
+          "let arrStatus = JSON.parse(pm.environment.get(\"userStatus\"))\r",
+          "let rdUserGender = _.sample(arrGender)\r",
+          "let rdUserStatus = _.sample(arrStatus)\r",
+          "return {\r",
+          "            name: rdUserName,\r",
+          "            email: rdUserEmail,\r",
+          "            gender: rdUserGender,\r",
+          "            status: rdUserStatus\r",
+          "        }\r",
+          " }\r",
+          "})`\r",
+          "pm.globals.set('randomData', randomData);\r",
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}

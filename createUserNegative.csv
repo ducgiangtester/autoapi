@@ -1,0 +1,6 @@
+﻿caseCsv,userNameCsv,userEmailCsv,userGenderCsv,userStatusCsv,fieldCsv,expectedMsgCsv
+Invalid email,Giang,abc,male,active,email,is invalid
+Blank name,,abc1@test.com,male,active,name,can't be blank
+Blank email,Giang,,male,active,email,can't be blank
+Blank gender,Giang,abc2@test.com,,active,gender,can't be blank
+Blank status,Giang,abc3@test.com,male,,status,can't be blank
